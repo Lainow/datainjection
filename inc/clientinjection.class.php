@@ -1,5 +1,7 @@
 <?php
 
+use Glpi\Application\View\TemplateRenderer;
+
 /**
  * -------------------------------------------------------------------------
  * DataInjection plugin for GLPI
@@ -78,11 +80,6 @@ class PluginDatainjectionClientInjection
         /** @var array $CFG_GLPI */
         global $CFG_GLPI;
 
-        echo "<form method='post' name=form action='" . Toolbox::getItemTypeFormURL(__CLASS__) . "'" .
-          "enctype='multipart/form-data'>";
-        echo "<div class='center'>";
-        echo "<table class='tab_cadre_fixe'>";
-
         $models = PluginDatainjectionModel::getModels(
             Session::getLoginUserID(),
             'name',
@@ -90,13 +87,7 @@ class PluginDatainjectionClientInjection
             false
         );
 
-        echo "<tr><th>" . __('Use an existing model', 'datainjection') . "</th></tr>";
-
-        echo "<tr class='tab_bg_1'>";
-        if (count($models) > 0) {
-            echo "<td class='center'>" . __('Model') . "&nbsp;";
-            PluginDatainjectionModel::dropdown();
-        } else {
+        if (count($models) < 0) {
             $text = __('No model currently available', 'datainjection');
 
             if (Session::haveRight('plugin_datainjection_model', CREATE)) {
@@ -113,13 +104,7 @@ class PluginDatainjectionClientInjection
                     )
                 );
             }
-            echo "<td class='center' colspan='2'>" . $text;
         }
-        echo "</td></tr></table><br>";
-
-        echo "<span id='span_injection' name='span_injection'></span>";
-        Html::closeForm();
-        echo "</div>";
 
         if (PluginDatainjectionSession::getParam('models_id')) {
             $p['models_id'] = PluginDatainjectionSession::getParam('models_id');
@@ -136,11 +121,18 @@ class PluginDatainjectionClientInjection
                     break;
             }
         }
+
+        TemplateRenderer::getInstance()->display('@datainjection/clientinjection.html.twig', [
+            'form_url'  => Toolbox::getItemTypeFormURL(__CLASS__),
+            'models'    => $models,
+            'content'   => $text ?? "",
+            'url'       => $url ?? "",
+        ]);
     }
 
 
     /**
-    * @param $options   array
+    * @param $options array
    **/
     public static function showUploadFileForm($options = [])
     {
@@ -149,27 +141,9 @@ class PluginDatainjectionClientInjection
         $confirm  = (isset($options['confirm']) ? $options['confirm'] : false);
         $url      = (($confirm == 'creation') ? Toolbox::getItemTypeFormURL('PluginDatainjectionModel')
                                          : Toolbox::getItemTypeFormURL(__CLASS__));
-        if ($add_form) {
-            echo "<form method='post' name='form' action='" . $url . "' enctype='multipart/form-data'>";
-        }
-        echo "<table class='tab_cadre_fixe'>";
-       //Show file selection
-        echo "<tr><th colspan='2'>" . __('File to inject', 'datainjection') . "</th></tr>";
 
-        echo "<tr class='tab_bg_1'>";
         $size = sprintf(__(' (%1$s)'), Document::getMaxUploadSize());
-        echo "<td>" . __('Choose a file', 'datainjection') . $size . "</td>";
-        echo "<td><input type='file' name='filename'>";
-        echo "<input type='hidden' name='id' value='" . $options['models_id'] . "'>";
-        echo "</td></tr>";
 
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('File encoding', 'datainjection') . "</td><td>";
-        PluginDatainjectionDropdown::dropdownFileEncoding();
-        echo "</td></tr>\n";
-
-        echo "<tr class='tab_bg_1'>";
-        echo "<td colspan='2' class='center'>";
         $alert = "";
         if ($confirm) {
             if ($confirm == 'creation') {
@@ -185,14 +159,15 @@ class PluginDatainjectionClientInjection
         if (!isset($options['submit'])) {
             $options['submit'] = __('Launch the import', 'datainjection');
         }
-        echo "<input type='submit' class='submit' name='upload' value='" .
-           htmlentities($options['submit'], ENT_QUOTES, 'UTF-8') . "' $alert>";
-        echo "&nbsp;&nbsp;<input type='submit' class='submit' name='cancel' value=\"" . _sx('button', 'Cancel') . "\">";
-        echo "</td></tr>\n";
-        echo "</table><br>";
-        if ($add_form) {
-            Html::closeForm();
-        }
+
+        TemplateRenderer::getInstance()->display('@datainjection/uploadfile.html.twig', [
+            'form_url'  => $url,
+            'size'      => $size,
+            'add_form'  => $add_form,
+            'options'   => $options,
+            'alert'     => $alert,
+            'cancel_bt' => _sx('button', 'Cancel'),
+        ]);
     }
 
 
@@ -206,26 +181,29 @@ class PluginDatainjectionClientInjection
         if (!PluginDatainjectionSession::getParam('infos')) {
             PluginDatainjectionSession::setParam('infos', []);
         }
-        echo "<table class='tab_cadre_fixe'>";
-        echo "<tr class='tab_bg_1'>";
-        echo "<th colspan='2'>" . sprintf(__('%1$s: %2$s'), __('Model'), $model->fields['name']) . "</th>";
-        echo "</tr>";
-        echo "</table><br>";
+        // echo "<table class='tab_cadre_fixe'>";
+        // echo "<tr class='tab_bg_1'>";
+        // echo "<th colspan='2'>" . sprintf(__('%1$s: %2$s'), __('Model'), $model->fields['name']) . "</th>";
+        // echo "</tr>";
+        // echo "</table><br>";
 
-        echo "<table class='tab_cadre_fixe'>";
-        echo "<tr class='tab_bg_1'>";
-        echo "<th colspan='2'>" . __('Import progress', 'datainjection') . "</th>";
-        echo "</tr>";
+        // echo "<table class='tab_cadre_fixe'>";
+        // echo "<tr class='tab_bg_1'>";
+        // echo "<th colspan='2'>" . __('Import progress', 'datainjection') . "</th>";
+        // echo "</tr>";
 
-        echo "<tr class='tab_bg_1'><td>";
-        Html::progressBar('doaction_progress', [
-            'create' => true,
-            'message' => __s(__('Injection of the file', 'datainjection'))
+        // echo "<tr class='tab_bg_1'><td>";
+        // Html::progressBar('doaction_progress', [
+        //     'create' => true,
+        //     'message' => __s(__('Injection of the file', 'datainjection'))
+        // ]);
+        // echo "</td></tr>";
+        // echo "</table><br>";
+
+        // echo "<span id='span_injection' name='span_injection'></span>";
+        TemplateRenderer::getInstance()->display('@datainjection/injection.html.twig', [
+            'model_name' => $model->fields['name'],
         ]);
-        echo "</td></tr>";
-        echo "</table><br>";
-
-        echo "<span id='span_injection' name='span_injection'></span>";
         self::processInjection($model, $entities_id);
     }
 

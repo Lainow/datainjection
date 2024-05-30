@@ -1,0 +1,22 @@
+<table class='tab_cadre_fixe'>
+    <tr class='tab_bg_1'>
+        <th colspan='2'> {{ model_name }} </th>
+    </tr>
+</table>
+
+<table class='tab_cadre_fixe'>
+    <tr class='tab_bg_1'>
+        <th colspan='2'> {{ __('Import progress', 'datainjection') }}</th>
+    </tr>
+
+    <tr class='tab_bg_1'><td>
+        {% do call('Html::createProgressBar', [{
+            'doaction_progress': {
+                'create': true,
+                'message': __('Injection of the file', 'datainjection')
+            }
+        }]) %}
+    </td></tr>
+</table><br>
+
+<span id='span_injection' name='span_injection'></span>

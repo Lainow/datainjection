@@ -1,0 +1,18 @@
+<form method='post' name=form action={{ form_url }} enctype='multipart/form-data'>
+    <div class='center'>
+        <table class='tab_cadre_fixe'>
+            <tr><th>{{ __('Use an existing model', 'datainjection') }}</th></tr>
+            <tr class='tab_bg_1'>
+                {% if models|length > 0 %}
+                    <td class='center'>{{ __('Model') }}&nbsp;
+                    {% do call('PluginDatainjectionModel::dropdown') %}
+                {% else %}
+                    <td class='center' colspan='2'>{{ text }}
+                {% endif %}
+            </td></tr>
+        </table>
+        <br>
+        <span id='span_injection' name='span_injection'></span>
+    </div>
+{% do call('Html::closeForm') %}
+

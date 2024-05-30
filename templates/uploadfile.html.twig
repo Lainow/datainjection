@@ -1,0 +1,26 @@
+{% if add_form %}
+    <form method='post' name='form' action={{ url }} enctype='multipart/form-data'>
+{% endif %}
+<table class='tab_cadre_fixe'>
+    <tr><th colspan='2'>{{ __('File to inject', 'datainjection') }}</th></tr>
+    <tr class='tab_bg_1'>
+        <td>{{ __('Choose a file', 'datainjection') }} {{ size }}</td>
+        <td>
+            <input type='file' name='filename'>
+            <input type='hidden' name='id' value={{ options.models_id }}>
+        </td>
+    </tr>
+    <tr class='tab_bg_1'>
+        <td>{{ __('File encoding', 'datainjection') }}</td>
+        <td>{% do call('PluginDatainjectionDropdown::dropdownFileEncoding') %}</td>
+    </tr>
+    <tr class='tab_bg_1'>
+        <td colspan='2' class='center'>
+            <input type='submit' class='submit' name='upload' value={{ options.submit|e }} {{ alert }}>
+            <input type='submit' class='submit' name='cancel' value={{ __('Cancel') }}>
+        </td>
+    </tr>
+</table><br>
+{% if add_form %}
+    {% do call('Html::closeForm') %}
+{% endif %}
