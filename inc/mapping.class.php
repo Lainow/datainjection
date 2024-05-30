@@ -136,7 +136,7 @@ class PluginDatainjectionMapping extends CommonDBTM
         $model->loadMappings();
 
         foreach ($model->getMappings() as $mapping) {
-            $mapping->fields = Toolbox::stripslashes_deep($mapping->fields);
+            $mapping->fields = ($mapping->fields);
             $mappings_id     = $mapping->getID();
             echo "<tr class='tab_bg_1'>";
             echo "<td class='center'>" . $mapping->fields['name'] . "</td>";
@@ -165,7 +165,7 @@ class PluginDatainjectionMapping extends CommonDBTM
     *
     * @param $models_id the model ID
     *
-    * @return true if more than one value to inject, false if not
+    * @return bool|array true if more than one value to inject, false if not
    **/
     public static function getSeveralMappedField($models_id)
     {
@@ -181,7 +181,7 @@ class PluginDatainjectionMapping extends CommonDBTM
                  GROUP BY `value`
                  HAVING `counter` > 1";
 
-        foreach ($DB->request($query) as $mapping) {
+        foreach ($DB->doQuery($query) as $mapping) {
             $several[] = $mapping['value'];
         }
         return $several;
@@ -201,7 +201,7 @@ class PluginDatainjectionMapping extends CommonDBTM
                    FROM `glpi_plugin_datainjection_mappings`
                    WHERE `models_id` = '" . $models_id . "'
                    ORDER BY `rank` ASC";
-        foreach ($DB->request($query) as $data) {
+        foreach ($DB->doQuery($query) as $data) {
             $mappings[] = $data['name'];
         }
         return $mappings;

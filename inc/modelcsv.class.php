@@ -139,7 +139,7 @@ class PluginDatainjectionModelcsv extends CommonDBChild
                 WHERE `models_id` = '" . $models_id . "'";
 
         /** @phpstan-ignore-next-line */
-        $results = $DB->query($query); // phpcs:ignore
+        $results = $DB->doQuery($query); // phpcs:ignore
         $id = 0;
 
         if ($DB->numrows($results) > 0) {

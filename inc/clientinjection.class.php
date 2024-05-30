@@ -32,9 +32,9 @@ class PluginDatainjectionClientInjection
 {
     public static $rightname = "plugin_datainjection_use";
 
-    const STEP_UPLOAD  = 0;
-    const STEP_PROCESS = 1;
-    const STEP_RESULT  = 2;
+    public const STEP_UPLOAD  = 0;
+    public const STEP_PROCESS = 1;
+    public const STEP_RESULT  = 2;
 
     //Injection results
     private $results = [];
@@ -218,7 +218,10 @@ class PluginDatainjectionClientInjection
         echo "</tr>";
 
         echo "<tr class='tab_bg_1'><td>";
-        Html::createProgressBar(__('Injection of the file', 'datainjection'));
+        Html::progressBar('doaction_progress', [
+            'create' => true,
+            'message' => __s(__('Injection of the file', 'datainjection'))
+        ]);
         echo "</td></tr>";
         echo "</table><br>";
 
@@ -337,7 +340,7 @@ class PluginDatainjectionClientInjection
 
 
     /**
-    * to be used instead of Toolbox::stripslashes_deep to reduce memory usage
+    * to be used instead of  to reduce memory usage
     * execute stripslashes in place (no copy)
     *
     * @param $value array of value
@@ -349,7 +352,7 @@ class PluginDatainjectionClientInjection
             foreach ($value as $key => $val) {
                 self::stripslashes_array($value[$key]);
             }
-        } else if (!is_null($value)) {
+        } elseif (!is_null($value)) {
             $value = stripslashes($value);
         }
     }

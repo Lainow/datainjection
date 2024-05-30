@@ -103,7 +103,7 @@ class PluginDatainjectionDeviceProcessorInjection extends DeviceProcessor implem
                     && ($values[get_parent_class($this)]['frequency'] > 0)
                 ) {
                     $tmp['frequency'] = $values[get_parent_class($this)]['frequency'];
-                } else if (
+                } elseif (
                     isset($values[get_parent_class($this)]['frequency_default'])
                     && ($values[get_parent_class($this)]['frequency_default'] > 0)
                 ) {

@@ -1,5 +1,7 @@
 <?php
 
+use voku\helper\UTF8;
+
 /**
  * -------------------------------------------------------------------------
  * DataInjection plugin for GLPI
@@ -103,8 +105,8 @@ class PluginDatainjectionBackendcsv extends PluginDatainjectionBackend implement
                 switch ($encoding) {
                   //If file is ISO8859-1 : encode the data in utf8
                     case PluginDatainjectionBackend::ENCODING_ISO8859_1:
-                        if (!Toolbox::seems_utf8($tmp)) {
-                            $csv[0][] = utf8_encode($tmp);
+                        if (!mb_check_encoding($tmp, "UTF-8")) {
+                            $csv[0][] = UTF8::encode('UTF-8', $tmp);
                         } else {
                             $csv[0][] = $tmp;
                         }

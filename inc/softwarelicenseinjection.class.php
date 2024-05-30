@@ -165,7 +165,7 @@ class PluginDatainjectionSoftwareLicenseInjection extends SoftwareLicense implem
                         true
                     );
         /** @phpstan-ignore-next-line */
-        $result = $DB->query($query); // phpcs:ignore
+        $result = $DB->doQuery($query); // phpcs:ignore
 
         if ($DB->numrows($result) > 0) {
             $id = $DB->result($result, 0, 'id');

@@ -48,7 +48,7 @@ interface PluginDatainjectionInjectionInterface
     /**
     * Indicates to with other types it can be connected
     *
-    * @return an array of GLPI types
+    * @return array an array of GLPI types
    **/
     public function connectedTo();
 
@@ -58,7 +58,7 @@ interface PluginDatainjectionInjectionInterface
     *
     * @param $primary_type    (default '')
     *
-    * @return an array of search options, as defined in each commondbtm object
+    * @return array an array of search options, as defined in each commondbtm object
    **/
     public function getOptions($primary_type = '');
 
@@ -79,7 +79,7 @@ interface PluginDatainjectionInjectionInterface
     * @param $values    array fields to add into glpi
     * @param $options   array options used during creation
     *
-    * @return an array of IDs of newly created objects:
+    * @return array an array of IDs of newly created objects:
     * for example array(Computer=>1, Networkport=>10)
    **/
     public function addOrUpdateObject($values = [], $options = []);

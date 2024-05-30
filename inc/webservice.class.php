@@ -40,7 +40,6 @@ class PluginDatainjectionWebservice
                 'models_id'  => 'integer, mandatory',
                 'entities_id' => 'integer,mandatory',
                 'mandatory'  => 'array,optional',
-                'uri'        => 'uri,mandatory',
                 'help'       => 'bool,optional'
             ];
         }

@@ -30,7 +30,7 @@
 
 class PluginDatainjectionInjectionType
 {
-    const NO_VALUE = 'none';
+    public const NO_VALUE = 'none';
 
 
     /**
@@ -38,7 +38,7 @@ class PluginDatainjectionInjectionType
     *
     * @param $only_primary    return only primary types (false by default)
     *
-    * @return an array which contains array(itemtype => itemtype name)
+    * @return array an array which contains array(itemtype => itemtype name)
    **/
     public static function getItemtypes($only_primary = false)
     {
@@ -83,7 +83,7 @@ class PluginDatainjectionInjectionType
     * @param $value           the selected value (default '')
     * @param $only_primary    (false by default)
     *
-    * @return nothing
+    * @return mixed nothing
    **/
     public static function dropdown($value = '', $only_primary = false)
     {
@@ -190,7 +190,7 @@ class PluginDatainjectionInjectionType
 
         if ($p['need_decode']) {
             $mapping_or_info = json_decode(
-                Toolbox::stripslashes_deep($options['mapping_or_info']),
+                ($options['mapping_or_info']),
                 true
             );
         } else {
@@ -314,12 +314,12 @@ class PluginDatainjectionInjectionType
     {
 
        // Received data has been slashed.
-        $options = Toolbox::stripslashes_deep($options);
+        $options = ($options);
 
         if ($options['need_decode']) {
            // JSON data has been slashed twice, stripslashes has to be done a second time.
             $mapping_or_info = json_decode(
-                Toolbox::stripslashes_deep($options['mapping_or_info']),
+                ($options['mapping_or_info']),
                 true
             );
         } else {
@@ -361,7 +361,7 @@ class PluginDatainjectionInjectionType
 
         if ($p['need_decode']) {
             $mapping_or_info = json_decode(
-                Toolbox::stripslashes_deep($options['mapping_or_info']),
+                ($options['mapping_or_info']),
                 true
             );
         } else {

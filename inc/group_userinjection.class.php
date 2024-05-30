@@ -112,7 +112,7 @@ class PluginDatainjectionGroup_UserInjection extends Group_User implements Plugi
 
         if ($primary_type == "User") {
             $fields['users_id'] = $values['User']['id'];
-        } else if ($primary_type == "Group") {
+        } elseif ($primary_type == "Group") {
             $fields['users_id']  = $values['Group_User']['users_id'];
             $fields['groups_id'] = $values['Group']['id'];
         }

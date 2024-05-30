@@ -45,7 +45,7 @@ class PluginDatainjectionInfoCollection
     /**
     * Load all the mappings for a specified model
     *
-    * @param model_id the model ID
+    * @param int model_id the model ID
    **/
     public function load($models_id)
     {
@@ -57,7 +57,7 @@ class PluginDatainjectionInfoCollection
                 WHERE `models_id` = '" . $models_id . "'
                 ORDER BY `itemtype` ASC";
 
-        foreach ($DB->request($query) as $data) {
+        foreach ($DB->doQuery($query) as $data) {
             $infos = new PluginDatainjectionInfo();
             $infos->fields = $data;
             $this->infosCollection[] = $infos;
@@ -67,7 +67,7 @@ class PluginDatainjectionInfoCollection
     /**
     * Return all the mappings for this model
     *
-    * @return the list of all the mappings for this model
+    * @return array the list of all the mappings for this model
    **/
     public function getAllInfos()
     {

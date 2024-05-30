@@ -244,7 +244,7 @@ class PluginDatainjectionNetworkportInjection extends NetworkPort implements Plu
     * @param $fields_toinject    array    the fields to insert into DB
     * @param $options            array
     *
-    * @return the sql where clause
+    * @return string the sql where clause
    **/
     public function getUnicityRequest($fields_toinject = [], $options = [])
     {
@@ -357,7 +357,7 @@ class PluginDatainjectionNetworkportInjection extends NetworkPort implements Plu
             $sql .= " AND `glpi_networkports`.`mac` = '" . $values['NetworkPort']["netmac"] . "'";
         }
         /** @phpstan-ignore-next-line */
-        $res = $DB->query($sql); // phpcs:ignore
+        $res = $DB->doQuery($sql); // phpcs:ignore
 
        //if at least one parameter is given
         $nb = $DB->numrows($res);

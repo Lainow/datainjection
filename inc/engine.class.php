@@ -222,7 +222,7 @@ class PluginDatainjectionEngine
     /**
     * Add additonal informations, as selected by the user which performs the CSV file import
     *
-    * @return additional informations to inject
+    * @return array additional informations to inject
    **/
     public function addAdditionalInformations()
     {

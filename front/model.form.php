@@ -49,12 +49,12 @@ if (isset($_POST["add"])) {
     //Set display to the advanced options tab
     Session::setActiveTab('PluginDatainjectionModel', 'PluginDatainjectionModel$3');
     Html::redirect(Toolbox::getItemTypeFormURL('PluginDatainjectionModel') . "?id=$newID");
-} else if (isset($_POST["delete"])) {
+} elseif (isset($_POST["delete"]) || isset($_POST["purge"])) {
     /* delete */
     $model->check($_POST['id'], DELETE);
     $model->delete($_POST);
     $model->redirectToList();
-} else if (isset($_POST["update"])) {
+} elseif (isset($_POST["update"])) {
     /* update */
     //Update model
     $model->check($_POST['id'], UPDATE);
@@ -63,12 +63,12 @@ if (isset($_POST["add"])) {
     $specific_model = PluginDatainjectionModel::getInstance('csv');
     $specific_model->saveFields($_POST);
     Html::back();
-} else if (isset($_POST["validate"])) {
+} elseif (isset($_POST["validate"])) {
     /* update order */
     $model->check($_POST['id'], UPDATE);
     $model->switchReadyToUse();
     Html::back();
-} else if (isset($_POST['upload'])) {
+} elseif (isset($_POST['upload'])) {
     if (!empty($_FILES)) {
         $model->check($_POST['id'], UPDATE);
 
@@ -91,7 +91,7 @@ if (isset($_POST["add"])) {
         }
     }
     Html::back();
-} else if (isset($_GET['sample'])) {
+} elseif (isset($_GET['sample'])) {
     $model->check($_GET['sample'], READ);
     $modeltype = PluginDatainjectionModel::getInstance($model->getField('filetype'));
     $modeltype->getFromDBByModelID($model->getField('id'));

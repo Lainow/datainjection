@@ -54,18 +54,18 @@ class PluginDatainjectionModel extends CommonDBTM
     public $severaltimes_mapped = [];
 
     //Private or public model
-    const MODEL_PRIVATE  = 1;
-    const MODEL_PUBLIC   = 0;
+    public const MODEL_PRIVATE  = 1;
+    public const MODEL_PUBLIC   = 0;
 
     //Step constants
-    const INITIAL_STEP      = 1;
-    const FILE_STEP         = 2;
-    const MAPPING_STEP      = 3;
-    const OTHERS_STEP       = 4;
-    const READY_TO_USE_STEP = 5;
+    public const INITIAL_STEP      = 1;
+    public const FILE_STEP         = 2;
+    public const MAPPING_STEP      = 3;
+    public const OTHERS_STEP       = 4;
+    public const READY_TO_USE_STEP = 5;
 
-    const PROCESS  = 0;
-    const CREATION = 1;
+    public const PROCESS  = 0;
+    public const CREATION = 1;
 
 
 
@@ -83,7 +83,7 @@ class PluginDatainjectionModel extends CommonDBTM
         $this->infos    = new PluginDatainjectionInfoCollection();
     }
 
-    public function canViewItem()
+    public function canViewItem(): bool
     {
 
         if ($this->isPrivate() && $this->fields['users_id'] != Session::getLoginUserID()) {
@@ -101,7 +101,7 @@ class PluginDatainjectionModel extends CommonDBTM
     }
 
 
-    public function canCreateItem()
+    public function canCreateItem(): bool
     {
 
         if (
@@ -373,7 +373,7 @@ class PluginDatainjectionModel extends CommonDBTM
                  ORDER BY `is_private` DESC,
                           `entities_id`, " . ($order == "`name`" ? "`name`" : $order);
 
-        foreach ($DB->request($query) as $data) {
+        foreach ($DB->doQuery($query) as $data) {
             if (
                 self::checkRightOnModel($data['id'])
                 && class_exists($data['itemtype'])
@@ -888,7 +888,8 @@ class PluginDatainjectionModel extends CommonDBTM
 
         if (is_array($crit) && (count($crit) > 0)) {
             $crit['FIELDS'] = 'id';
-            foreach ($DB->request($model->getTable(), $crit) as $row) {
+            $sql = "SELECT `id` FROM `glpi_plugin_datainjection_models`";
+            foreach ($DB->doQuery($sql) as $row) {
                 $model->delete($row);
             }
         }
@@ -1181,7 +1182,7 @@ class PluginDatainjectionModel extends CommonDBTM
     /**
     * Try to parse an input file
     *
-    * @return true if the file is a CSV file
+    * @return array true if the file is a CSV file
    **/
     public function isFileCorrect()
     {
@@ -1311,7 +1312,6 @@ class PluginDatainjectionModel extends CommonDBTM
 
         $tmp         = $this->fields;
         $tmp['step'] = self::READY_TO_USE_STEP;
-        $tmp = Toolbox::addslashes_deep($tmp);
         $this->update($tmp);
     }
 
@@ -1346,7 +1346,7 @@ class PluginDatainjectionModel extends CommonDBTM
                 UNION (SELECT DISTINCT `itemtype`
                        FROM `glpi_plugin_datainjection_infos`
                        WHERE `models_id` = '" . $models_id . "')";
-        foreach ($DB->request($query) as $data) {
+        foreach ($DB->doQuery($query) as $data) {
             if ($data['itemtype'] != PluginDatainjectionInjectionType::NO_VALUE) {
                 if (class_exists($data['itemtype'])) {
                     $item                     = new $data['itemtype']();
@@ -1420,7 +1420,7 @@ class PluginDatainjectionModel extends CommonDBTM
     public static function prepareLogResults($models_id)
     {
 
-        $results   = Toolbox::stripslashes_deep(
+        $results   = (
             json_decode(
                 PluginDatainjectionSession::getParam('results'),
                 true

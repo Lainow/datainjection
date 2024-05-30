@@ -62,7 +62,7 @@ class PluginDatainjectionProfile extends Profile
                 WHERE `profiles_id`='$ID'
                    AND `name` LIKE '%plugin_datainjection%'";
         /** @phpstan-ignore-next-line */
-        $DB->query($query); // phpcs:ignore
+        $DB->doQuery($query); // phpcs:ignore
     }
 
     public function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
@@ -148,7 +148,7 @@ class PluginDatainjectionProfile extends Profile
         foreach ($profiles as $id => $profile) {
             $query = "SELECT `id` FROM `glpi_profiles` WHERE `name`='" . $profile['name'] . "'";
             /** @phpstan-ignore-next-line */
-            $result = $DB->query($query); // phpcs:ignore
+            $result = $DB->doQuery($query); // phpcs:ignore
             if ($DB->numrows($result) == 1) {
                 $id = $DB->result($result, 0, 'id');
                 switch ($profile['model']) {

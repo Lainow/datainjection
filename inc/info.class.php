@@ -143,7 +143,7 @@ class PluginDatainjectionInfo extends CommonDBTM
             echo "</tr>";
 
             foreach ($model->getInfos() as $info) {
-                $info->fields = Toolbox::stripslashes_deep($info->fields);
+                $info->fields = ($info->fields);
                 $infos_id     = $info->fields['id'];
                 echo "<tr class='tab_bg_1'>";
                 if ($canedit) {
@@ -496,7 +496,7 @@ class PluginDatainjectionInfo extends CommonDBTM
                   getEntitiesRestrictRequest(' AND ', $table) .
            "ORDER BY `template_name`";
 
-        foreach ($DB->request($sql) as $data) {
+        foreach ($DB->doQuery($sql) as $data) {
             $values[$data['id']] = $data['template_name'];
         }
         Dropdown::showFromArray($name, $values);

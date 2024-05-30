@@ -1,5 +1,7 @@
 <?php
 
+use voku\helper\UTF8;
+
 /**
  * -------------------------------------------------------------------------
  * DataInjection plugin for GLPI
@@ -39,9 +41,9 @@ abstract class PluginDatainjectionBackend
     protected $errmsg;
     protected $numberOfLines = 0;
 
-    const ENCODING_ISO8859_1 = 0;
-    const ENCODING_UFT8      = 1;
-    const ENCODING_AUTO      = 2;
+    public const ENCODING_ISO8859_1 = 0;
+    public const ENCODING_UFT8      = 1;
+    public const ENCODING_AUTO      = 2;
 
 
     /**
@@ -105,7 +107,7 @@ abstract class PluginDatainjectionBackend
     {
 
         if (!self::is_utf8($string)) {
-            return utf8_encode($string);
+            return UTF8::encode('UTF-8', $string);
         }
         return $string;
     }

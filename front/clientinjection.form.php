@@ -43,7 +43,7 @@ Html::header(
 if (isset($_SESSION['datainjection']['go'])) {
     $model = unserialize($_SESSION['datainjection']['currentmodel']);
     PluginDatainjectionClientInjection::showInjectionForm($model, $_SESSION['glpiactive_entity']);
-} else if (isset($_POST['upload'])) {
+} elseif (isset($_POST['upload'])) {
     $model = new PluginDatainjectionModel();
     $model->can($_POST['id'], READ);
     $_SESSION['datainjection']['infos'] = (isset($_POST['info']) ? $_POST['info'] : []);
@@ -56,7 +56,7 @@ if (isset($_SESSION['datainjection']['go'])) {
             ERROR,
             true
         );
-    } else if (
+    } elseif (
         isset($_FILES['filename']['name'])
         && $_FILES['filename']['name']
          && $_FILES['filename']['tmp_name']
@@ -93,7 +93,7 @@ if (isset($_SESSION['datainjection']['go'])) {
     }
 
     Html::back();
-} else if (isset($_POST['finish']) || isset($_POST['cancel'])) {
+} elseif (isset($_POST['finish']) || isset($_POST['cancel'])) {
     PluginDatainjectionSession::removeParams();
     Html::redirect(Toolbox::getItemTypeFormURL('PluginDatainjectionClientInjection'));
 } else {
