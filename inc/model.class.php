@@ -1,5 +1,7 @@
 <?php
 
+use Glpi\Application\View\TemplateRenderer;
+
 /**
  * -------------------------------------------------------------------------
  * DataInjection plugin for GLPI
@@ -639,119 +641,128 @@ class PluginDatainjectionModel extends CommonDBTM
             echo Html::hidden('step', ['value' => 1]);
         }
 
-        echo "<form name='form' method='post' action='" . Toolbox::getItemTypeFormURL(__CLASS__) . "'>";
-        echo "<div class='center' id='tabsbody'>";
-        echo "<table class='tab_cadre_fixe'>";
+        // echo "<form name='form' method='post' action='" . Toolbox::getItemTypeFormURL(__CLASS__) . "'>";
+        // echo "<div class='center' id='tabsbody'>";
+        // echo "<table class='tab_cadre_fixe'>";
 
-        echo "<tr><th colspan='2'>" . self::getTypeName() . "</th>";
-        echo "<th colspan='2'>" . PluginDatainjectionDropdown::getStatusLabel($this->fields['step']) .
-         "</th></tr>";
+        // echo "<tr><th colspan='2'>" . self::getTypeName() . "</th>";
+        // echo "<th colspan='2'>" . PluginDatainjectionDropdown::getStatusLabel($this->fields['step']) .
+        //  "</th></tr>";
 
-        echo "<tr class='tab_bg_1'>";
-        echo "<td><input type='hidden' name='users_id' value='" . Session::getLoginUserID() . "'>" .
-               __('Name') . "</td>";
-        echo "<td>";
-        echo Html::input(
-            'name',
-            [
-                'value' => $this->fields["name"],
-            ]
-        );
-        echo "</td>";
-        echo "<td colspan='2'></td></tr>";
+        // echo "<tr class='tab_bg_1'>";
+        // echo "<td><input type='hidden' name='users_id' value='" . Session::getLoginUserID() . "'>" .
+        //        __('Name') . "</td>";
+        // echo "<td>";
+        // echo Html::input(
+        //     'name',
+        //     [
+        //         'value' => $this->fields["name"],
+        //     ]
+        // );
+        // echo "</td>";
+        // echo "<td colspan='2'></td></tr>";
 
         $rand = mt_rand();
-        echo "<tr class='tab_bg_1'>";
-        echo "<td><label for='dropdown_is_private$rand'>" . __('Visibility') . "</label></td>";
-        echo "<td colspan='3'>";
-        Dropdown::showFromArray(
-            'is_private',
-            [
-                1  => __('Private'),
-                0  => __('Public')
-            ],
-            [
-                'value'  => $this->fields['is_private'],
-                'rand'   => $rand
-            ]
-        );
-        echo "</td>";
-        echo "</tr>";
-        echo "<tr class='tab_bg_2'>";
-        echo "<td>" . __('Entity') . "</td>";
-        echo "<td>";
-        Entity::dropdown(['value' => $this->fields["entities_id"]]);
-        echo "</td>";
-        echo "<td>" . __('Child entities') . "</td>";
-        echo "<td>";
-        Dropdown::showYesNo('is_recursive', $this->fields["is_recursive"]);
-        echo "</td>";
-        echo "</tr>";
+        // echo "<tr class='tab_bg_1'>";
+        // echo "<td><label for='dropdown_is_private$rand'>" . __('Visibility') . "</label></td>";
+        // echo "<td colspan='3'>";
+        // Dropdown::showFromArray(
+        //     'is_private',
+        //     [
+        //         1  => __('Private'),
+        //         0  => __('Public')
+        //     ],
+        //     [
+        //         'value'  => $this->fields['is_private'],
+        //         'rand'   => $rand
+        //     ]
+        // );
+        // echo "</td>";
+        // echo "</tr>";
+        // echo "<tr class='tab_bg_2'>";
+        // echo "<td>" . __('Entity') . "</td>";
+        // echo "<td>";
+        // Entity::dropdown(['value' => $this->fields["entities_id"]]);
+        // echo "</td>";
+        // echo "<td>" . __('Child entities') . "</td>";
+        // echo "<td>";
+        // Dropdown::showYesNo('is_recursive', $this->fields["is_recursive"]);
+        // echo "</td>";
+        // echo "</tr>";
 
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Comments') . "</td>";
-        echo "<td colspan='3' class='middle'>";
-        echo "<textarea cols='45' rows='5' name='comment' >" . $this->fields["comment"] . "</textarea>";
-        echo "</td></tr>";
+        // echo "<tr class='tab_bg_1'>";
+        // echo "<td>" . __('Comments') . "</td>";
+        // echo "<td colspan='3' class='middle'>";
+        // echo "<textarea cols='45' rows='5' name='comment' >" . $this->fields["comment"] . "</textarea>";
+        // echo "</td></tr>";
 
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Type of data to import', 'datainjection') . "</td>";
-        echo "<td>";
+        // echo "<tr class='tab_bg_1'>";
+        // echo "<td>" . __('Type of data to import', 'datainjection') . "</td>";
+        // echo "<td>";
 
         if (($this->fields['step'] == '') || ($this->fields['step'] == self::INITIAL_STEP)) {
             //Get only the primary types
-            PluginDatainjectionInjectionType::dropdown($this->fields['itemtype'], true);
+            $itemtype = PluginDatainjectionInjectionType::dropdown($this->fields['itemtype'], true);
         } else {
             $itemtype = new $this->fields['itemtype']();
-            echo $itemtype->getTypeName();
         }
-        echo "</td><td colspan='2'></tr>";
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Allow lines creation', 'datainjection') . "</td>";
-        echo "<td>";
-        Dropdown::showYesNo("behavior_add", $this->fields['behavior_add']);
-        echo "</td><td>" . __('Allow lines update', 'datainjection') . "</td>";
-        echo "<td>";
-        Dropdown::showYesNo("behavior_update", $this->fields['behavior_update']);
-        echo "</td></tr>";
+        // echo "</td><td colspan='2'></tr>";
+        // echo "<tr class='tab_bg_1'>";
+        // echo "<td>" . __('Allow lines creation', 'datainjection') . "</td>";
+        // echo "<td>";
+        // Dropdown::showYesNo("behavior_add", $this->fields['behavior_add']);
+        // echo "</td><td>" . __('Allow lines update', 'datainjection') . "</td>";
+        // echo "<td>";
+        // Dropdown::showYesNo("behavior_update", $this->fields['behavior_update']);
+        // echo "</td></tr>";
 
-        echo "<tr class='tab_bg_1'><th colspan='4'>" . __('Advanced options', 'datainjection') .
-         "</th></tr>";
+        // echo "<tr class='tab_bg_1'><th colspan='4'>" . __('Advanced options', 'datainjection') .
+        //  "</th></tr>";
 
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Allow creation of dropdowns', 'datainjection') . "</td>";
-        echo "<td>";
-        Dropdown::showYesNo("can_add_dropdown", $this->fields['can_add_dropdown']);
-        echo "</td>";
-        echo "<td>" . __('Dates format', 'datainjection') . "</td>";
-        echo "<td>";
-        Dropdown::showFromArray(
-            'date_format',
-            PluginDatainjectionDropdown::dateFormats(),
-            ['value' => $this->fields['date_format']]
-        );
-        echo "</td></tr>";
+        // echo "<tr class='tab_bg_1'>";
+        // echo "<td>" . __('Allow creation of dropdowns', 'datainjection') . "</td>";
+        // echo "<td>";
+        // Dropdown::showYesNo("can_add_dropdown", $this->fields['can_add_dropdown']);
+        // echo "</td>";
+        // echo "<td>" . __('Dates format', 'datainjection') . "</td>";
+        // echo "<td>";
+        // Dropdown::showFromArray(
+        //     'date_format',
+        //     PluginDatainjectionDropdown::dateFormats(),
+        //     ['value' => $this->fields['date_format']]
+        // );
+        // echo "</td></tr>";
 
-        echo "<tr class='tab_bg_1'>";
-        echo "<td>" . __('Allow update of existing fields', 'datainjection') . "</td>";
-        echo "<td>";
-        Dropdown::showYesNo("can_overwrite_if_not_empty", $this->fields['can_overwrite_if_not_empty']);
-        echo "</td>";
-        echo "<td>" . __('Float format', 'datainjection') . "</td>";
-        echo "<td>";
-        Dropdown::showFromArray(
-            'float_format',
-            PluginDatainjectionDropdown::floatFormats(),
-            ['value' => $this->fields['float_format']]
-        );
-        echo "</td></tr>";
+        // echo "<tr class='tab_bg_1'>";
+        // echo "<td>" . __('Allow update of existing fields', 'datainjection') . "</td>";
+        // echo "<td>";
+        // Dropdown::showYesNo("can_overwrite_if_not_empty", $this->fields['can_overwrite_if_not_empty']);
+        // echo "</td>";
+        // echo "<td>" . __('Float format', 'datainjection') . "</td>";
+        // echo "<td>";
+        // Dropdown::showFromArray(
+        //     'float_format',
+        //     PluginDatainjectionDropdown::floatFormats(),
+        //     ['value' => $this->fields['float_format']]
+        // );
+        // echo "</td></tr>";
 
-        if ($ID > 0) {
-            $tmp = self::getInstance('csv');
-            $tmp->showAdditionnalForm($this);
-        }
+        // if ($ID > 0) {
+        //     $tmp = self::getInstance('csv');
+        //     $tmp->showAdditionnalForm($this);
+        // }
 
-        $this->showFormButtons($options);
+        // $this->showFormButtons($options);
+        TemplateRenderer::getInstance()->display('@datainjection/model/advanced.html.twig', [
+            'item' => $this,
+            'users_id'      => Session::getLoginUserID(),
+            'url'           => Toolbox::getItemTypeFormURL(__CLASS__),
+            'rand'          => $rand,
+            'itemtype'      => $itemtype->getTypeName(),
+            'ID'            => $ID,
+            'date_formats'  => PluginDatainjectionDropdown::dateFormats(),
+            'options'       => $options,
+        ]);
         return true;
     }
 

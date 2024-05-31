@@ -1,0 +1,108 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+<form name='form' method='post' action='{{ url }}'>
+    <div class='center' id='tabsbody'>
+        <table class='tab_cadre_fixe'>
+
+            {# <tr><th colspan='2'>{{ self.getTypeName() }}</th>
+            <th colspan='2'>{{ PluginDatainjectionDropdown.getStatusLabel(this.fields['step']) }}</th></tr> #}
+
+            {{ fields.hiddenField(
+                'users_id',
+                users_id,
+            )}}
+
+            {{ fields.textField(
+                'name',
+                item.fields["name"],
+                __('Name')
+            )}}
+
+            {{ fields.dropdownArrayField(
+                'is_private',
+                item.fields["is_private"],
+                {
+                    1: __('Private'),
+                    0: __('Public')
+                },
+                __('Entity')
+            ) }}
+
+            {{ fields.dropdownField(
+                'Entity',
+                'entities_id',
+                item.fields["entities_id"],
+                __('Entity')
+            ) }}
+
+            {{ fields.dropdownYesNo(
+                'is_recursive',
+                item.fields["is_recursive"],
+                __('Child entities')
+            ) }}
+
+            {{ fields.textareaField(
+                'comment',
+                item.fields["comment"],
+                __('Comments')
+            )}}
+
+            {{ fields.textField(
+                '',
+                itemtype,
+                __('Type of data to import', 'datainjection'),
+                {'readonly': true}
+            )}}
+
+            {{ fields.dropdownYesNo(
+                'behavior_add',
+                item.fields["behavior_add"],
+                __('Allow lines creation')
+            ) }}
+
+            {{ fields.dropdownYesNo(
+                'behavior_update',
+                item.fields["behavior_update"],
+                __('Allow lines update')
+            ) }}
+
+            {{ fields.dropdownYesNo(
+                'can_add_dropdown',
+                item.fields["can_add_dropdown"],
+                __('Dates format')
+            ) }}
+
+            {{ fields.dropdownYesNo(
+                'can_add_dropdown',
+                item.fields["can_add_dropdown"],
+                __('Dates format')
+            ) }}
+
+            {{ fields.dropdownArrayField(
+                'date_format',
+                item.fields["date_format"],
+                date_formats,
+                __('Dates format')
+            ) }}
+
+            {{ fields.dropdownYesNo(
+                'can_overwrite_if_not_empty',
+                item.fields["can_overwrite_if_not_empty"],
+                __('Allow update of existing fields')
+            ) }}
+
+            {{ fields.dropdownYesNo(
+                'float_format',
+                item.fields["float_format"],
+                __('Float format')
+            ) }}
+
+            {#
+            {% if ID > 0 %}
+                {{ tmp.showAdditionnalForm(this) }}
+            {% endif %}
+
+            {{ this.showFormButtons(options) }} #}
+        </table>
+    </div>
+</form>

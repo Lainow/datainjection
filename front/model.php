@@ -39,7 +39,7 @@ Html::header(
 );
 
 $model = new PluginDatainjectionModel();
-$model->checkGlobal(READ);
+//$model->checkGlobal(READ);
 
 Search::show('PluginDatainjectionModel');
 
