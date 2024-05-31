@@ -181,26 +181,6 @@ class PluginDatainjectionClientInjection
         if (!PluginDatainjectionSession::getParam('infos')) {
             PluginDatainjectionSession::setParam('infos', []);
         }
-        // echo "<table class='tab_cadre_fixe'>";
-        // echo "<tr class='tab_bg_1'>";
-        // echo "<th colspan='2'>" . sprintf(__('%1$s: %2$s'), __('Model'), $model->fields['name']) . "</th>";
-        // echo "</tr>";
-        // echo "</table><br>";
-
-        // echo "<table class='tab_cadre_fixe'>";
-        // echo "<tr class='tab_bg_1'>";
-        // echo "<th colspan='2'>" . __('Import progress', 'datainjection') . "</th>";
-        // echo "</tr>";
-
-        // echo "<tr class='tab_bg_1'><td>";
-        // Html::progressBar('doaction_progress', [
-        //     'create' => true,
-        //     'message' => __s(__('Injection of the file', 'datainjection'))
-        // ]);
-        // echo "</td></tr>";
-        // echo "</table><br>";
-
-        // echo "<span id='span_injection' name='span_injection'></span>";
         TemplateRenderer::getInstance()->display('@datainjection/injection.html.twig', [
             'model_name' => $model->fields['name'],
         ]);
@@ -360,49 +340,50 @@ class PluginDatainjectionClientInjection
 
         $di_base_url = Plugin::getWebDir('datainjection');
 
-        echo "<form method='post' action='$di_base_url/front/clientinjection.form.php'>";
-        echo "<table class='tab_cadre_fixe'>";
-        echo "<tr class='tab_bg_1'><th>" . __("Injection's results", 'datainjection') . "</th></tr>";
+        // echo "<form method='post' action='$di_base_url/front/clientinjection.form.php'>";
+        // echo "<table class='tab_cadre_fixe'>";
+        // echo "<tr class='tab_bg_1'><th>" . __("Injection's results", 'datainjection') . "</th></tr>";
 
-        echo "<tr class='tab_bg_1'><td class='center'>";
-        if ($ok) {
-            echo "<img src='$di_base_url/pics/ok.png'>";
-            echo __('Injection successful', 'datainjection');
-        } else {
-            echo "<img src='$di_base_url/pics/danger.png'>";
-            echo __('Injection encounters errors', 'datainjection');
-        }
-        echo "</td></tr>";
+        // echo "<tr class='tab_bg_1'><td class='center'>";
+        // if ($ok) {
+        //     echo "<img src='$di_base_url/pics/ok.png'>";
+        //     echo __('Injection successful', 'datainjection');
+        // } else {
+        //     echo "<img src='$di_base_url/pics/danger.png'>";
+        //     echo __('Injection encounters errors', 'datainjection');
+        // }
+        // echo "</td></tr>";
 
-        echo "<tr class='tab_bg_1'><td class='center'>";
+        // echo "<tr class='tab_bg_1'><td class='center'>";
         $url = "$di_base_url/front/popup.php?popup=log&amp;models_id=" .
            $model->fields['id'];
-        echo "<a href='#' onClick=\"var w = window.open('$url' , 'glpipopup', " .
-           "'height=400, width=1000, top=100, left=100, scrollbars=yes' );w.focus();\"/' " .
-           "title='" . __('See the log', 'datainjection') . "'>";
-        echo "<img src='$di_base_url/pics/seereport.png'></a>";
+        // echo "<a href='#' onClick=\"var w = window.open('$url' , 'glpipopup', " .
+        //    "'height=400, width=1000, top=100, left=100, scrollbars=yes' );w.focus();\"/' " .
+        //    "title='" . __('See the log', 'datainjection') . "'>";
+        // echo "<img src='$di_base_url/pics/seereport.png'></a>";
 
         $plugin = new Plugin();
-        if ($plugin->isActivated('pdf')) {
-            echo "&nbsp;<a href='#' onclick=\"location.href='export.pdf.php?models_id=" .
-                   $model->fields['id'] . "'\" title='" . __('Export rapport in PDF', 'datainjection') . "'>";
-            echo "<img src='$di_base_url/pics/reportpdf.png'></a>";
-        }
+        // if ($plugin->isActivated('pdf')) {
+        //     echo "&nbsp;<a href='#' onclick=\"location.href='export.pdf.php?models_id=" .
+        //            $model->fields['id'] . "'\" title='" . __('Export rapport in PDF', 'datainjection') . "'>";
+        //     echo "<img src='$di_base_url/pics/reportpdf.png'></a>";
+        // }
+        // echo "</td></tr>";
 
-        if (!empty($error_lines)) {
-            echo "&nbsp;<a href='#' onclick=\"location.href='export.csv.php'\"title='" .
-                   __('Export the log', 'datainjection') . "'>";
-            echo "<img src='$di_base_url/pics/failedcsv.png'></a>";
-        }
-
-        echo "</td></tr>";
-
-        echo "<tr class='tab_bg_1'><td class='center'>";
-        echo "<input class='submit' type='submit' name='finish' value='" .
-           __('Finish', 'datainjection') . "'>";
-        echo "</td></tr>";
-        echo "</table>";
-        Html::closeForm();
+        // echo "<tr class='tab_bg_1'><td class='center'>";
+        // echo "<input class='submit' type='submit' name='finish' value='" .
+        //    __('Finish', 'datainjection') . "'>";
+        // echo "</td></tr>";
+        // echo "</table>";
+        // Html::closeForm();
+        TemplateRenderer::getInstance()->display('@datainjection/result.html.twig', [
+            'url'           => $url,
+            'di_base_url'   => $di_base_url,
+            'ok'            => $ok,
+            'pdf_activated' => $plugin->isActivated('pdf'),
+            'model'         => $model->fields,
+            'error'         => !empty($error_lines),
+        ]);
     }
 
 
