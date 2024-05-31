@@ -13,7 +13,7 @@
     </td></tr>
 
     <tr class='tab_bg_1'><td class='center'>
-    <a href='#' onClick="var w = window.open('{{ url|e }}' , 'glpipopup', 'height=400, width=1000, top=100, left=100, scrollbars=yes' );w.focus();" title= {{ __('See the log', 'datainjection') }}>
+    <a href='#' onClick="var w = window.open('{{ url|e }}' , 'glpipopup', 'height=400, width=1000, top=100, left=100, scrollbars=yes' );w.focus();" title='{{ __("See the log", "datainjection") }}'>
     <img src= '{{ di_base_url }}/pics/seereport.png'></a>
 
     {% if pdf_activated %}

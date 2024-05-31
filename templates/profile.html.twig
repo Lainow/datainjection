@@ -1,0 +1,16 @@
+<div class='firstbloc'>
+    {% if (canedit) %}
+        {% if form_url is defined %}
+            <form method='post' action='{{ form_url }}'>
+        {% else %}
+            <div class='mx-n2 mb-4 table-responsive'>
+                <input type="hidden" name="id" value="{{ id }}" />
+                <button type="submit" class="btn btn-primary mx-1" name="update" value={{ __('Save') }}>
+                    <i class="ti ti-device-floppy"></i>
+                    <span>{{ __('Save') }}</span>
+                </button>
+            </div>
+            {% do call('Html::closeForm') %}
+        {% endif %}
+    {% endif %}
+</div>

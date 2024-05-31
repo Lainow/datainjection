@@ -1,5 +1,7 @@
 <?php
 
+use Glpi\Application\View\TemplateRenderer;
+
 /**
  * -------------------------------------------------------------------------
  * DataInjection plugin for GLPI
@@ -175,15 +177,18 @@ class PluginDatainjectionProfile extends Profile
 
     public function showForm($ID, $options = [])
     {
-
-        echo "<div class='firstbloc'>";
         if ($canedit = Session::haveRightsOr(self::$rightname, [CREATE, UPDATE, PURGE])) {
             $profile = new Profile();
-            echo "<form method='post' action='" . $profile->getFormURL() . "'>";
+            $form_url = "<form method='post' action='" . $profile->getFormURL() . "'>";
         }
 
         $profile = new Profile();
         $profile->getFromDB($ID);
+
+        TemplateRenderer::getInstance()->display('@datainjection/profile.html.twig', [
+            'canedit'   => $canedit,
+            'form_url'  => $form_url ?? "",
+        ]);
 
         $rights = self::getAllRights();
         $profile->displayRightsChoiceMatrix(
@@ -194,14 +199,10 @@ class PluginDatainjectionProfile extends Profile
                 'title'         => __('General')
             ]
         );
-        if ($canedit) {
-            echo "<div class='center'>";
-            echo Html::hidden('id', ['value' => $ID]);
-            echo Html::submit(_sx('button', 'Save'), ['name' => 'update']);
-            echo "</div>\n";
-            Html::closeForm();
-        }
-        echo "</div>";
+
+        TemplateRenderer::getInstance()->display('@datainjection/profile.html.twig', [
+            'canedit'   => $canedit,
+        ]);
 
         return true;
     }
