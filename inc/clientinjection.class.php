@@ -139,7 +139,7 @@ class PluginDatainjectionClientInjection
 
         $add_form = (isset($options['add_form']) && $options['add_form']);
         $confirm  = (isset($options['confirm']) ? $options['confirm'] : false);
-        $url      = (($confirm == 'creation') ? Toolbox::getItemTypeFormURL('PluginDatainjectionModel')
+        $url      = (($confirm == 'creation') ? Toolbox::getItemTypeFormURL(PluginDatainjectionModel::class)
                                          : Toolbox::getItemTypeFormURL(__CLASS__));
 
         $size = sprintf(__(' (%1$s)'), Document::getMaxUploadSize());
@@ -154,7 +154,7 @@ class PluginDatainjectionClientInjection
                     'datainjection'
                 );
             }
-            $alert = "OnClick='return window.confirm(\"$message\");'";
+            $alert = 'OnClick=\'return window.confirm("' . $message . '");\'';
         }
         if (!isset($options['submit'])) {
             $options['submit'] = __('Launch the import', 'datainjection');
@@ -165,8 +165,8 @@ class PluginDatainjectionClientInjection
             'size'      => $size,
             'add_form'  => $add_form,
             'options'   => $options,
-            'alert'     => $alert,
-            'cancel_bt' => _sx('button', 'Cancel'),
+            'confirm'   => $confirm,
+            'alert'     => html_entity_decode($alert),
         ]);
     }
 
@@ -350,6 +350,7 @@ class PluginDatainjectionClientInjection
             'pdf_activated' => $plugin->isActivated('pdf'),
             'model'         => $model->fields,
             'error'         => !empty($error_lines),
+            'plugin_webdir' => Plugin::getWebDir('datainjection'),
         ]);
     }
 

@@ -1,0 +1,16 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+<div class="hr-text m-10">
+    <span style="font-size: 1.5em;">{{ __('Specific file format options', 'datainjection') }}</span>
+</div>
+
+{{ fields.dropdownYesNo(
+    'is_header_present',
+    item.isHeaderPresent(),
+    __("Header's presence", 'datainjection')
+) }}
+{{ fields.textField(
+    'delimiter',
+    item.getDelimiter(),
+    __('File delimitor', 'datainjection')
+)}}

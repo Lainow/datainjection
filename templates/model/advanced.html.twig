@@ -1,108 +1,123 @@
 {% import 'components/form/fields_macros.html.twig' as fields %}
 
 <form name='form' method='post' action='{{ url }}'>
-    <div class='center' id='tabsbody'>
-        <table class='tab_cadre_fixe'>
+    <div class="card-body d-flex flex-wrap">
+        <div class="col-12 flex-column">
+            <div class="d-flex flex-row flex-wrap flex-xl-nowrap">
+                <div class="row flex-row align-items-start flex-grow-1">
+                    <div class="row flex-row">
 
-            {# <tr><th colspan='2'>{{ self.getTypeName() }}</th>
-            <th colspan='2'>{{ PluginDatainjectionDropdown.getStatusLabel(this.fields['step']) }}</th></tr> #}
+                        <div class="hr-text mt-0 mb-10">
+                            <span style="font-size: 1.5em;">{{ __('Model') }}</span>
+                            <span style="font-size: 1.5em;">{% do call('PluginDatainjectionDropdown::getStatusLabel', [item.fields["step"]]) %}</span>
+                        </div>
 
-            {{ fields.hiddenField(
-                'users_id',
-                users_id,
-            )}}
+                        {# <tr><th colspan='2'>{{ self.getTypeName() }}</th>
+                        <th colspan='2'>{{ PluginDatainjectionDropdown.getStatusLabel(this.fields['step']) }}</th></tr> #}
 
-            {{ fields.textField(
-                'name',
-                item.fields["name"],
-                __('Name')
-            )}}
+                        {{ fields.textField(
+                            'name',
+                            item.fields["name"],
+                            __('Name')
+                        )}}
 
-            {{ fields.dropdownArrayField(
-                'is_private',
-                item.fields["is_private"],
-                {
-                    1: __('Private'),
-                    0: __('Public')
-                },
-                __('Entity')
-            ) }}
+                        {{ fields.hiddenField(
+                            'users_id',
+                            users_id,
+                        )}}
 
-            {{ fields.dropdownField(
-                'Entity',
-                'entities_id',
-                item.fields["entities_id"],
-                __('Entity')
-            ) }}
+                        {{ fields.dropdownArrayField(
+                            'is_private',
+                            item.fields["is_private"],
+                            {
+                                1: __('Private'),
+                                0: __('Public')
+                            },
+                            __('Visibiliy')
+                        ) }}
 
-            {{ fields.dropdownYesNo(
-                'is_recursive',
-                item.fields["is_recursive"],
-                __('Child entities')
-            ) }}
+                        {{ fields.hiddenField()}}
 
-            {{ fields.textareaField(
-                'comment',
-                item.fields["comment"],
-                __('Comments')
-            )}}
+                        {{ fields.dropdownField(
+                            'Entity',
+                            'entities_id',
+                            item.fields["entities_id"],
+                            __('Entity')
+                        ) }}
 
-            {{ fields.textField(
-                '',
-                itemtype,
-                __('Type of data to import', 'datainjection'),
-                {'readonly': true}
-            )}}
+                        {{ fields.dropdownYesNo(
+                            'is_recursive',
+                            item.fields["is_recursive"],
+                            __('Child entities')
+                        ) }}
 
-            {{ fields.dropdownYesNo(
-                'behavior_add',
-                item.fields["behavior_add"],
-                __('Allow lines creation')
-            ) }}
+                        {{ fields.textareaField(
+                            'comment',
+                            item.fields["comment"],
+                            __('Comments')
+                        )}}
 
-            {{ fields.dropdownYesNo(
-                'behavior_update',
-                item.fields["behavior_update"],
-                __('Allow lines update')
-            ) }}
+                        {{ fields.hiddenField()}}
 
-            {{ fields.dropdownYesNo(
-                'can_add_dropdown',
-                item.fields["can_add_dropdown"],
-                __('Dates format')
-            ) }}
+                        {{ fields.dropdownArrayField(
+                            'itemtype',
+                            itemtype,
+                            itemtypes,
+                            __('Type of data to import'),
+                            {'disabled': itemtype is not null ? true : false}
+                        ) }}
 
-            {{ fields.dropdownYesNo(
-                'can_add_dropdown',
-                item.fields["can_add_dropdown"],
-                __('Dates format')
-            ) }}
+                        {{ fields.hiddenField()}}
 
-            {{ fields.dropdownArrayField(
-                'date_format',
-                item.fields["date_format"],
-                date_formats,
-                __('Dates format')
-            ) }}
+                        {{ fields.dropdownYesNo(
+                            'behavior_add',
+                            item.fields["behavior_add"],
+                            __('Allow lines creation')
+                        ) }}
 
-            {{ fields.dropdownYesNo(
-                'can_overwrite_if_not_empty',
-                item.fields["can_overwrite_if_not_empty"],
-                __('Allow update of existing fields')
-            ) }}
+                        {{ fields.dropdownYesNo(
+                            'behavior_update',
+                            item.fields["behavior_update"],
+                            __('Allow lines update')
+                        ) }}
 
-            {{ fields.dropdownYesNo(
-                'float_format',
-                item.fields["float_format"],
-                __('Float format')
-            ) }}
+                        <div class="hr-text m-10">
+                            <span style="font-size: 1.5em;">{{ __('Advanced options', 'datainjection') }}</span>
+                        </div>
 
-            {#
-            {% if ID > 0 %}
-                {{ tmp.showAdditionnalForm(this) }}
-            {% endif %}
+                        {{ fields.dropdownYesNo(
+                            'can_add_dropdown',
+                            item.fields["can_add_dropdown"],
+                            __('Allow creation of dropdowns')
+                        ) }}
 
-            {{ this.showFormButtons(options) }} #}
-        </table>
+                        {{ fields.dropdownArrayField(
+                            'date_format',
+                            item.fields["date_format"],
+                            date_formats,
+                            __('Dates format')
+                        ) }}
+
+                        {{ fields.dropdownYesNo(
+                            'can_overwrite_if_not_empty',
+                            item.fields["can_overwrite_if_not_empty"],
+                            __('Allow update of existing fields')
+                        ) }}
+
+                        {{ fields.dropdownYesNo(
+                            'float_format',
+                            item.fields["float_format"],
+                            __('Float format')
+                        ) }}
+
+                        {% if tmp is not null %}
+                            {{ tmp.showAdditionnalForm(item) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    {{ item.showFormButtons(options) }}
 </form>

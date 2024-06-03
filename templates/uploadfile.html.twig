@@ -1,5 +1,5 @@
 {% if add_form %}
-    <form method='post' name='form' action={{ url }} enctype='multipart/form-data'>
+    <form method='post' name='form' action={{ form_url }} enctype='multipart/form-data'>
 {% endif %}
 <table class='tab_cadre_fixe'>
     <tr><th colspan='2'>{{ __('File to inject', 'datainjection') }}</th></tr>
@@ -16,7 +16,16 @@
     </tr>
     <tr class='tab_bg_1'>
         <td colspan='2' class='center'>
-            <input type='submit' class='submit' name='upload' value={{ options.submit|e }} {{ alert }}>
+            {% if confirm == true %}
+                {% if confirm == 'creation' %}
+                    {% set message = __('Warning : existing mapped column will be overridden', 'datainjection') %}
+                {% else %}
+                    {% set message = __('Watch out, you\'re about to inject data into GLPI. Are you sure you want to do it ?', 'datainjection') %}
+                {% endif %}
+                {% set onClick = 'return window.confirm(\'' ~ message ~ '\');"' %}
+                {% set alert = 'onClick=' ~ onClick %}
+            {% endif %}
+            <input type='submit' class='submit' name='upload' value="{{ __('Launch the import', 'datainjection') }}" {{alert|default('')}}>
             <input type='submit' class='submit' name='cancel' value={{ __('Cancel') }}>
         </td>
     </tr>

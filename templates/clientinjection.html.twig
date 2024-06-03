@@ -1,11 +1,21 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+{% set rand = random() %}
 <form method='post' name=form action={{ form_url }} enctype='multipart/form-data'>
     <div class='center'>
         <table class='tab_cadre_fixe'>
             <tr><th>{{ __('Use an existing model', 'datainjection') }}</th></tr>
             <tr class='tab_bg_1'>
                 {% if models|length > 0 %}
-                    <td class='center'>{{ __('Model') }}&nbsp;
-                    {% do call('PluginDatainjectionModel::dropdown') %}
+                    <td>
+                        {{ fields.dropdownField(
+                            'PluginDatainjectionModel',
+                            'dropdown_models' ~ rand,
+                            '',
+                            __('Model')
+                        ) }}
+                    </td>
+                    {% set ajaxurl = plugin_webdir ~ '/ajax/dropdownSelectModel.php' %}
+                    {% do call('Ajax::updateItemOnSelectEvent', ["dropdown_models" ~ rand, 'span_injection', ajaxurl, {'models_id': '__VALUE__'}]) %}
                 {% else %}
                     <td class='center' colspan='2'>{{ text }}
                 {% endif %}

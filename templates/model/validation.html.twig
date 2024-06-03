@@ -1,0 +1,30 @@
+{% import 'components/form/fields_macros.html.twig' as fields %}
+
+<form method='post' name=form action='" . Toolbox::getItemTypeFormURL(__CLASS__) . "'>
+    <table class='tab_cadre_fixe'>
+        <tr class='tab_bg_1'>
+            <th colspan='4'> {{ __('Validation') }} </th>
+        </tr>
+        <tr class='tab_bg_1'>
+            <td class='center'>
+                {% set submitbutton %}
+                    <button class="btn btn-primary" type="submit" name="validate" value="1">
+                        <i class="ti ti-check"></i>
+                        <span>{{ _x('button', 'Validate the model', 'datainjection') }}</span>
+                    </button>
+                {% endset %}
+
+                {{ fields.htmlField(
+                    '',
+                    listvalidbutton,
+                    ''
+                ) }}
+
+                {{ fields.hiddenField(
+                    'id',
+                    item.fields['id'],
+                )}}
+            </td>
+        </tr>
+    </table>
+    {% do call('Html::closeForm') %}
